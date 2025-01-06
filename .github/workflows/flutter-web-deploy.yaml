@@ -27,7 +27,7 @@ jobs:
           flutter pub get
 
       - name: Build
-        run: flutter build web
+        run: flutter build web --base-href="/<repository-name>/"
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
