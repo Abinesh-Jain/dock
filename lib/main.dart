@@ -13,24 +13,29 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: Center(
-          child: Dock(
-            items: const [
-              {'icon': Icons.person, 'name': 'Person'},
-              {'icon': Icons.message, 'name': 'Message'},
-              {'icon': Icons.call, 'name': 'Call'},
-              {'icon': Icons.camera, 'name': 'Camera'},
-              {'icon': Icons.photo, 'name': 'Photo'},
-            ],
-            builder: (e) {
-              final iconData = e['icon'] as IconData;
-              final iconName = e['name'] as String;
-              return App(
-                icon: iconData,
-                name: iconName,
-              );
-            },
-          ),
+        body: Stack(
+          children: [
+            const BackgroundImage(),
+            Center(
+              child: Dock(
+                items: const [
+                  {'icon': Icons.person, 'name': 'Person'},
+                  {'icon': Icons.message, 'name': 'Message'},
+                  {'icon': Icons.call, 'name': 'Call'},
+                  {'icon': Icons.camera, 'name': 'Camera'},
+                  {'icon': Icons.photo, 'name': 'Photo'},
+                ],
+                builder: (e) {
+                  final iconData = e['icon'] as IconData;
+                  final iconName = e['name'] as String;
+                  return App(
+                    icon: iconData,
+                    name: iconName,
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -215,5 +220,19 @@ class TrianglePainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     return false;
+  }
+}
+
+class BackgroundImage extends StatelessWidget {
+  const BackgroundImage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) => Image.network(
+        'https://picsum.photos/${constraints.maxWidth.toInt()}/${constraints.maxHeight.toInt()}',
+        errorBuilder: (context, error, stackTrace) => const SizedBox(),
+      ),
+    );
   }
 }
