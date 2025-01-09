@@ -23,6 +23,23 @@ class _DockState<T> extends State<Dock<T>> {
   /// [T] items being manipulated.
   late final List<T> _items = widget.items.toList();
 
+  /// This function updates the state by removing an item from a list at a specific index and inserting
+  /// it at another index based on drag and drop details.
+  ///
+  /// Args:
+  ///   details (DragTargetDetails): The `details` parameter in the `_onAcceptWithDetails` function is of
+  /// type `DragTargetDetails`. This parameter contains information about the drag operation, such as the
+  /// data being dragged and the position where it was dropped.
+  ///   index (int): The `index` parameter in the `_onAcceptWithDetails` function represents the position
+  /// where the dragged item should be inserted in the list of items.
+  void _onAcceptWithDetails(DragTargetDetails details, int index) {
+    setState(() {
+      final draggedIndex = _items.indexOf(details.data);
+      _items.removeAt(draggedIndex);
+      _items.insert(index, details.data);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,13 +54,8 @@ class _DockState<T> extends State<Dock<T>> {
         children: List.generate(_items.length, (index) {
           final item = _items[index];
           return DragTarget(
-            onAcceptWithDetails: (details) {
-              setState(() {
-                final draggedIndex = _items.indexOf(details.data as T);
-                _items.removeAt(draggedIndex);
-                _items.insert(index, details.data as T);
-              });
-            },
+            onAcceptWithDetails: (details) =>
+                _onAcceptWithDetails(details, index),
             builder: (context, candidateData, rejectedData) {
               return AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),

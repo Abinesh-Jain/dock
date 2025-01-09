@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+/// The `Docker` class in Dart is a stateless widget that displays a list of items in a reorderable
+/// horizontal list view.
 class Docker extends StatelessWidget {
   Docker({
     super.key,
@@ -20,7 +22,6 @@ class Docker extends StatelessWidget {
       builder: (context, value, child) => Container(
         alignment: Alignment.center,
         height: 48 + (8 * 2),
-        // width: (value.length * (48 + 16)) + (4 * 2),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           color: Colors.black12,
